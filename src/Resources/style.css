@@ -1,0 +1,36 @@
+
+.header-nav{
+    margin: 0 !important;
+    padding: 0 !important;
+    background:#33465B;
+    position: fixed;
+    z-index: 999;
+}
+.header nav{
+    display: flex;
+}
+.header{
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.header nav div.company-logo{
+    flex-grow: 1
+}
+.header nav ul{
+    margin: 0 !important;
+}
+.header nav div.company-logo, .header nav ul li{
+    padding: 15px 5px;
+    font-family: roboto, sans-serif;
+    color:#fff
+}
+.header nav ul li{
+    display: inline-block;
+}
+.header nav ul li a{
+    color: #fff;
+    text-decoration: none;
+}
+.header nav ul li:hover a{
+    text-decoration: none;
+}
