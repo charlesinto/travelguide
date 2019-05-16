@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import Car1 from "../../Resources/images/car1.jpg";
-import Car2 from "../../Resources/images/car2.jpg";
+import Carousel from "./Carousel";
+import BookForm from "./BookForm";
 
 class HomeSlides extends Component {
     render() {
         return (
             <div>
-
+                <Carousel />
+                <BookForm />
             </div>
         );
     }

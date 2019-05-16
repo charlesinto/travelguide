@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import HomeSlides from "./HomeSlides";
+import HomeSlides from "./LandingImageForm/HomeSlides";
 class Home extends Component {
     render() {
         return (
