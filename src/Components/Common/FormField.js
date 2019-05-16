@@ -22,13 +22,7 @@ class FormField extends Component {
                 console.log('new value', formdata.value)
                 return formTemplate = (
                     <div>
-                        <div className={"input-group"}>
-                            {
-                                this.props.icon ?
-                                    <div className="input-group-addon">
-                                        <span className={`glyphicon ${this.props.icon}`}></span>
-                                    </div> : null
-                            }
+                        <div className={""}>
                             <input
                                 value={formdata.value}
                                 onChange={(event) => change({ event, id })}
@@ -45,7 +39,7 @@ class FormField extends Component {
             case 'select':
                 console.log('new value', formdata.value)
                 return formTemplate = (
-                    <div className="input-group">
+                    <div className="">
                         {
 
                         }
