@@ -1,5 +1,6 @@
 
 
+
 class Helper {
 
     static update(element, formdata, formName) {
@@ -10,12 +11,16 @@ class Helper {
             ...newFormData[element.id]
         }
         newElementDetails.value = element.event.target.value;
-        if (element.blur) {
-            let validData = this.validate(newElementDetails, formdata);
-            newElementDetails.valid = validData[0];
-            newElementDetails.validationMessage = validData[1];
-        }
+        console.log('excss')
+        let validData = this.validate(newElementDetails, formdata, element.id);
+        newElementDetails.valid = validData[0];
+        newElementDetails.validationMessage = validData[1];
+        console.log('neled', newElementDetails)
+        if (element.id === 'tripType') {
+            newElementDetails.value = `${!newElementDetails.checkedState ? 'return trip' : 'one way trip'}`;
+            newElementDetails.checkedState = !newElementDetails.checkedState
 
+        }
         newElementDetails.touched = element.blur;
 
         newFormData[element.id] = newElementDetails;
@@ -26,12 +31,12 @@ class Helper {
         const newFormData = { ...formdata }
         const newDropdownArray = newFormData[field].config.options;
         values.forEach(item => {
-            newDropdownArray.push({ key: item._id, value: item.name })
+            newDropdownArray.push({ key: item.id, value: item.name })
         });
         newFormData[field].config.options = newDropdownArray;
         return newFormData;
     }
-    static validate(elementData, formdata = []) {
+    static validate(elementData, formdata = [], id) {
         let error = [true, ''];
         if (elementData.validation.email) {
             const valid = elementData.value.trim() === '';
@@ -39,13 +44,16 @@ class Helper {
                 ((/\S+@\S+\.\S+/.test(elementData.value.trim())) ? error : [false, 'Must be a valid email']);
 
         }
+        else if (id === 'tripType') {
+            return [true, '']
+        }
         else if (elementData.validation.confirm === 'password') {
             const valid = elementData.value.trim() === '';
             error = valid ? [false, 'This field is required'] :
                 (elementData.value === formdata['password'].value ? error : [false, 'passwords do not match']);
         }
         else {
-            return elementData.value ? error : [false, 'This is Required']
+            return elementData.value.trim() ? error : [false, 'This is Required']
         }
         return error;
     }
@@ -62,6 +70,10 @@ class Helper {
                 else if (formIsValid) {
                     formIsValid = form[key].valid
                 }
+            }
+            else if (key === 'tripType') {
+                form[key].valid = true;
+                formIsValid = true
             }
         }
         return { isValid: formIsValid, record: objectToSubmit }

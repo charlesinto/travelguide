@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 
 class Card extends Component {
+    bookRide(e, id) {
+        e.preventDefault()
+        this.props.onBookRideClick(id)
+    }
     render() {
-        const { carUrl, companyName, carType, carCapacity, ridePrice } = this.props.rideDetail;
+        const { carUrl, companyName, carType, carCapacity, ridePrice, id } = this.props.rideDetail;
         return (
             <div className="card_container">
                 <div className="car_image"
@@ -33,7 +37,7 @@ class Card extends Component {
                     <span><strong>&#8358; {ridePrice}</strong></span>
                 </div>
                 <div className="book_action">
-                    <div><button className="btn btn-primary">Book</button></div>
+                    <div><button className="btn btn-primary" onClick={(e) => this.bookRide(e, id)}>Book</button></div>
                 </div>
             </div>
         );

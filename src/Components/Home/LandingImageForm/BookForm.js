@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
+import * as actions from '../../../Actions'
 import Helper from "../../Helper";
 import { FormField } from "../../Common";
 import { withRouter } from "react-router-dom";
@@ -9,13 +11,36 @@ class BookForm extends Component {
         formError: false,
         formSuccess: '',
         formdata: {
+            origin: {
+                element: 'select',
+                value: '',
+                config: {
+                    label: 'From:',
+                    name: 'origin_dp_input',
+                    options: [
+                        { key: 'ajah -> lagos', value: 'ajah -> lagos' },
+                        { key: 'oshodi -> lagos', value: 'oshodi -> lagos' }
+                    ],
+                    type: 'select',
+                    placeholder: 'Departure Terminal'
+                },
+                validation: {
+                    required: true,
+                },
+                valid: false,
+                validationMessage: '',
+                showLabel: false
+            },
             destination: {
                 element: 'select',
                 value: '',
                 config: {
                     label: 'From:',
                     name: 'dp_input',
-                    options: [],
+                    options: [
+                        { keys: 'Enugu', value: 'Enugu' },
+                        { keys: 'Abuja', value: 'Abuja' }
+                    ],
                     type: 'select',
                     placeholder: 'Departure Terminal'
                 },
@@ -67,7 +92,7 @@ class BookForm extends Component {
             },
             tripType: {
                 element: 'input',
-                value: '',
+                value: 'return trip',
                 checkedState: true,
                 config: {
                     label: 'Departure Date',
@@ -80,7 +105,7 @@ class BookForm extends Component {
                     required: true,
                 },
                 focused: null,
-                valid: false,
+                valid: true,
                 validationMessage: '',
                 showLabel: false
             },
@@ -107,14 +132,19 @@ class BookForm extends Component {
     onChange(element) {
         console.log(element)
         const newFormData = Helper.update(element, this.state.formdata, 'register')
-        console.log('nfd', newFormData);
         this.setState({
             formError: false,
             formdata: { ...newFormData }
         }, () => console.log('new sae', this.state.formdata))
     }
     onBookNow(e) {
-        e.preventDefault()
+        e.preventDefault();
+        const dataToSubmit = Helper.validateForm(this.state.formdata, 'login');
+        if (!dataToSubmit.isValid) {
+            return this.setState({ formError: true })
+        }
+        console.log(dataToSubmit.record);
+        this.props.bookTrip(dataToSubmit.record);
         this.props.history.push('/book/new_trip');
     }
     render() {
@@ -126,16 +156,33 @@ class BookForm extends Component {
                         </div>
                         <div className="col-sm-8 form">
                             <form noValidate>
-                                <div className="form-group">
-                                    <label htmlFor="destination">Destination</label>
-                                    <FormField
-                                        id={'destination'}
-                                        icon={'glyphicon-home'}
-                                        formdata={this.state.formdata['destination']}
-                                        onFocusChange={(focus) => console.log(focus)}
-                                        change={(element) => this.onChange(element)}
-                                    />
+                                <div className="row">
+                                    <div className="col-sm-6">
+                                        <div className="form-group">
+                                            <label htmlFor="origin">Travelling From</label>
+                                            <FormField
+                                                id={'origin'}
+                                                icon={'glyphicon-home'}
+                                                formdata={this.state.formdata['origin']}
+                                                change={(element) => this.onChange(element)}
+                                            />
+                                        </div>
+                                    </div>
+                                    <div className="col-sm-6">
+                                        <div className="form-group">
+                                            <label htmlFor="destination">Travelling To</label>
+                                            <FormField
+                                                id={'destination'}
+                                                icon={'glyphicon-home'}
+                                                formdata={this.state.formdata['destination']}
+                                                onFocusChange={(focus) => console.log(focus)}
+                                                change={(element) => this.onChange(element)}
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
+
+
                                 <div className="form-group">
                                     <label htmlFor="numberOfSeats">Seats</label>
                                     <FormField
@@ -171,18 +218,25 @@ class BookForm extends Component {
                                         Return Trip
                                     </label>
                                 </div>
-                                <div className="form-group">
-                                    <label htmlFor="arrival_date">Arrival Date</label>
-                                    <FormField
-                                        id={'arrival_date'}
-                                        icon={'glyphicon-home'}
-                                        formdata={this.state.formdata['arrival_date']}
-                                        onFocusChange={(focus) => console.log(focus)}
-                                        change={(element) => this.onChange(element)}
+                                {
+                                    this.state.formdata['tripType'].checkedState ?
 
-                                    />
+                                        <div className="form-group">
+                                            <label htmlFor="arrival_date">Arrival Date</label>
+                                            <FormField
+                                                id={'arrival_date'}
+                                                icon={'glyphicon-home'}
+                                                formdata={this.state.formdata['arrival_date']}
+                                                onFocusChange={(focus) => console.log(focus)}
+                                                change={(element) => this.onChange(element)}
 
-                                </div>
+                                            />
+                                        </div>
+                                        : null
+                                }
+
+
+
                                 <div style={{ display: 'flex', justifyContent: 'center' }}>
                                     <button type="submit" className="btn btn-primary" onClick={(e) => this.onBookNow(e)}>Book Now</button>
                                 </div>
@@ -194,5 +248,9 @@ class BookForm extends Component {
         );
     }
 }
+const mapStateToProps = state => {
+    return {
 
-export default withRouter(BookForm);
+    }
+}
+export default connect(mapStateToProps, actions)(withRouter(BookForm));

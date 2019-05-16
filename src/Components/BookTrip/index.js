@@ -1,50 +1,41 @@
 import React, { Component } from 'react';
+import { withRouter } from "react-router-dom";
 import { Card } from "../Common";
+import { connect } from "react-redux";
+import * as actions from '../../Actions';
+
 class index extends Component {
+    componentDidMount() {
+        this.props.fetchRides()
+    }
+    onBookRideClick(id) {
+        const selectedRide = this.props.rides.find(item => item.id === id)
+        this.props.rideSelected(selectedRide);
+        this.props.history.push(`/book/new_trip/${id}/order`)
+    }
+    showRides = () => (
+        this.props.rides.map((item, i) => (
+            <Card
+                key={i}
+                rideDetail={item}
+                onBookRideClick={(id) => this.onBookRideClick(id)}
+            />
+        ))
+    )
     render() {
         return (
             <div>
                 <div className="book_order_details">
-                    <Card
-                        rideDetail={{
-                            carUrl: 'https://res.cloudinary.com/dnevwxinm/image/upload/v1558010045/hiace-van-dx-gl-package-6c57.jpg',
-                            companyName: 'Autostar',
-                            carType: 'Executive',
-                            carCapacity: '14 seaters',
-                            ridePrice: '5000'
-                        }}
-                    />
-                    <Card
-                        rideDetail={{
-                            carUrl: 'https://res.cloudinary.com/dnevwxinm/image/upload/v1558010061/car-604019.jpg',
-                            companyName: 'Autostar',
-                            carType: 'Executive',
-                            carCapacity: '3 seaters',
-                            ridePrice: '5000'
-                        }}
-                    />
-                    <Card
-                        rideDetail={{
-                            carUrl: 'https://res.cloudinary.com/dnevwxinm/image/upload/v1558010045/hiace-van-dx-gl-package-6c57.jpg',
-                            companyName: 'Autostar',
-                            carType: 'Executive',
-                            carCapacity: '14 seaters',
-                            ridePrice: '5000'
-                        }}
-                    />
-                    <Card
-                        rideDetail={{
-                            carUrl: 'https://res.cloudinary.com/dnevwxinm/image/upload/v1558010061/car-604019.jpg',
-                            companyName: 'Autostar',
-                            carType: 'Executive',
-                            carCapacity: '3 seaters',
-                            ridePrice: '5000'
-                        }}
-                    />
+                    {this.showRides()}
                 </div>
             </div>
         );
     }
 }
-
-export default index;
+const mapStateToProps = state => {
+    const { rides: { rides } } = state
+    return {
+        rides
+    }
+}
+export default connect(mapStateToProps, actions)(withRouter(index));
