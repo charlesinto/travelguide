@@ -1,4 +1,6 @@
-
+body{
+    overflow-x: hidden;
+}
 .header-nav{
     margin: 0 !important;
     padding: 0 !important;
@@ -33,4 +35,74 @@
 }
 .header nav ul li:hover a{
     text-decoration: none;
+}
+
+.carrousel_image{
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+}
+.booking-form{
+    position: absolute;
+    top: 75px;
+    width: 100%;
+    right: 30px;
+}
+.form{
+    background: #2d3a44;
+    opacity: 0.7;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.form form{
+    max-width: 500px;
+    width:90%;
+    margin:10px auto;
+}
+
+.form form label{
+    color: #fff !important;
+}
+.book_order_details{
+    position: relative;
+    top: 60px;
+}
+.card_container{
+    display: flex;
+    justify-content: space-between;
+    margin: 0px auto 10px auto;
+    max-width: 800px;
+    border: 1px solid #c3b3b3;
+    border-radius: 4px;
+}
+
+.company_details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    font-family: lato, sans-serif;
+    font-size:14px;
+    font-weight: 700;
+}
+
+.company_details .company_name {
+    font-size:18px;
+
+}
+
+.company_details:nth-child(2){
+
+}
+
+.company_details:nth-child(3){
+
+}
+
+.ride_price, .book_action{
+    display: flex;
+    align-items: center;
+}
+
+.book_action button{
+    width:100px;
 }
