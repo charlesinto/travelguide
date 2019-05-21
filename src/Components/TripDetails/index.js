@@ -1,23 +1,52 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
+import { LineBreak } from "../Common";
 import * as actions from "../../Actions";
+import CardDetail from "./CardDetail";
+import Helper from ".././Helper";
+import { withStyles } from '@material-ui/core/styles';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormControl from '@material-ui/core/FormControl';
+
 class TripDetails extends Component {
+
+    state = {
+        paymentType: 'Pay On Arrival',
+        formdata: {
+
+        }
+    }
     componentDidMount() {
+        if (sessionStorage.getItem('preference') !== null && sessionStorage.getItem('selectedRide') !== null) {
+            const tripPreferences = JSON.parse(sessionStorage.getItem('preference'))
+            const rideDetail = JSON.parse(sessionStorage.getItem('selectedRide'));
+            this.props.fetchState({ tripPreferences, rideDetail })
+        } else {
+            this.props.history.push('/')
+        }
 
     }
     isObjectEmpty(obj) {
         return Object.keys(obj).length > 0 ? false : true
     }
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            formdata: nextProps.formdata,
+        }, () => console.log('this sate', this.state));
+    }
     viewRideDetails() {
-        const { selectedRide:
+        const { preferences:
             { carUrl, companyName, carType, carCapacity, ridePrice },
-            preferences: { origin, destination } } = this.props;
+            selectedRide: { origin, destination } } = this.props;
         return (
             <div className="container-fluid">
                 <div className="row">
                     <div className="col-sm-4">
                         <div
+                            className="card-frame"
                             style={{
                                 backgroundImage: `url(${carUrl})`,
                                 backgroundRepeat: 'no-repeat',
@@ -49,9 +78,80 @@ class TripDetails extends Component {
                                 <p>{carType}</p>
                                 <p>&#8358; {ridePrice}</p>
                             </div>
+
                         </div>
+                        <LineBreak />
+                        <h2 className="header-title">Passenger Details</h2>
+                        {this.fillContactDetails()}
+                        <LineBreak />
+                        <h2 className="header-title">Payment Options</h2>
+                        {this.paymentMethod()}
                     </div>
                 </div>
+            </div>
+        )
+    }
+    handleChange(event) {
+        this.setState({
+            paymentType: event.target.value
+        })
+    }
+    paymentMethod() {
+        const { classes } = this.props;
+        return (
+            <FormControl classes={{ root: classes.formcontrolRoot }}>
+                <RadioGroup
+                    aria-label="paymentType"
+                    name="payment-type"
+                    value={this.state.paymentType}
+                    classes={{ root: classes.root }}
+                    onChange={(e) => this.handleChange(e)}
+                >
+                    <FormControlLabel
+                        value="Reserve Booking"
+                        control={<Radio classes={{ root: classes.radio, checked: classes.checked }} />}
+                        label="Reserve Booking"
+                    />
+                    <FormControlLabel
+                        iconStyle={{ fill: '#061250' }}
+                        value="Pay Online"
+                        control={<Radio classes={{ root: classes.radio, checked: classes.checked }} />}
+                        label="Pay Online"
+                    />
+                    <FormControlLabel
+                        iconStyle={{ fill: '#061250' }}
+                        value="Pay On Arrival"
+                        control={<Radio classes={{ root: classes.radio, checked: classes.checked }} />}
+                        label="Pay On Arrival"
+                    />
+                </RadioGroup>
+            </FormControl>
+        )
+    }
+    onChange(element) {
+        console.log(element);
+        const newFormData = Helper.update(element, this.state.formdata, 'register')
+        this.setState({
+            formError: false,
+            formdata: { ...newFormData }
+        })
+    }
+    fillContactDetails() {
+        const numberOfLines = this.props.selectedRide.numberOfSeats;
+        const elements = []
+        for (let i = 0; i < numberOfLines; i++) {
+            elements.push(<CardDetail i={i} state={this.state} onChange={(element) => this.onChange(element)} />)
+        }
+        console.log(elements);
+        return (
+            <div className="conatiner">
+                <form>
+                    {elements.map((item, i) => (
+                        <div key={i}>
+                            {item}
+                        </div>
+                    ))}
+                </form>
             </div>
         )
     }
@@ -59,20 +159,34 @@ class TripDetails extends Component {
         return (
             <div>
                 <div className="book_order_details">
-                    {this.isObjectEmpty(this.props.selectedRide) ? null :
-
-                        this.viewRideDetails()
-                    }
+                    {this.viewRideDetails()}
                 </div>
             </div>
         );
     }
 }
+
+const customStyle = theme => ({
+    formcontrolRoot: {
+        width: '100%'
+    },
+    root: {
+        flexDirection: 'row !important',
+        margin: '0 auto'
+    },
+    radio: {
+        '&$checked': {
+            color: '#061250'
+        }
+    },
+    checked: {}
+})
 const mapStateToProps = state => {
-    const { selectedRide: { selectedRide, preferences } } = state;
+    const { selectedRide: { selectedRide, preferences, formdata } } = state;
     return {
         selectedRide,
         preferences,
+        formdata
     }
 }
-export default connect(mapStateToProps, actions)(withRouter(TripDetails));
+export default connect(mapStateToProps, actions)(withStyles(customStyle)((withRouter(TripDetails))));

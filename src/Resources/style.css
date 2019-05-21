@@ -29,11 +29,11 @@ body{
 .header nav ul li{
     display: inline-block;
 }
-.header nav ul li a{
+.header nav ul li a, .company-logo a{
     color: #fff;
     text-decoration: none;
 }
-.header nav ul li:hover a{
+.header nav ul li:hover a, .company-logo:hover a{
     text-decoration: none;
 }
 
@@ -50,7 +50,7 @@ body{
 }
 .form{
     background: #2d3a44;
-    opacity: 0.7;
+    opacity: 0.8;
     max-width: 600px;
     margin: 0 auto;
 }
@@ -66,6 +66,7 @@ body{
 .book_order_details{
     position: relative;
     top: 60px;
+    margin: 0 10px;
 }
 .card_container{
     display: flex;
@@ -125,4 +126,57 @@ body{
     font-family: talto, sans-serif;
     font-size: 16px;
     font-weight: bold;
+}
+.header-title{
+    font-family: talto, roboto, sans-serif;
+    text-align: center;
+    margin: 10px;
+    margin-bottom: 20px;
+}
+
+.MuiFormControl-root-1{
+    width: 100%;
+}
+
+.MuiFormGroup-root-5 {
+    flex-direction: row;
+    justify-content: space-evenly;
+    flex: 1;
+    width: 100%;
+}
+.MuiRadio-colorSecondary-16.MuiRadio-checked-13{
+    color:'#1880f3' !important;
+}
+.MuiFormGroup-root-74{
+    flex-direction: row !important
+}
+.MuiRadio-colorSecondary-84.MuiRadio-checked-81{
+    color: #061250 !important;
+}
+@media screen and (max-width: 700px){
+    .card_container{
+        margin: 0 10px 10px 10px;
+        flex-direction: column;
+    }
+    .car_image{
+        width: 100% !important
+    }
+    .company_details:nth-child(2) {
+        margin-left: 10px;
+    }
+    .ride_price{
+        margin-left: 10px;
+    }
+    .book_action{
+        justify-content: center;
+        margin: 10px 0;
+    }
+    .book_order_details{
+        margin: 0;
+    }
+    .card-frame{
+        border: 1px solid #969191;
+        border-radius: 4px;
+    }
+    
 }

@@ -130,12 +130,11 @@ class BookForm extends Component {
         }
     }
     onChange(element) {
-        console.log(element)
         const newFormData = Helper.update(element, this.state.formdata, 'register')
         this.setState({
             formError: false,
             formdata: { ...newFormData }
-        }, () => console.log('new sae', this.state.formdata))
+        })
     }
     onBookNow(e) {
         e.preventDefault();
