@@ -19,7 +19,6 @@ class FormField extends Component {
         let formTemplate = null;
         switch (formdata.element) {
             case 'input':
-                console.log('new value', formdata.value)
                 return formTemplate = (
                     <div>
                         <div className={""}>
@@ -37,7 +36,6 @@ class FormField extends Component {
                     </div>
                 )
             case 'select':
-                console.log('new value', formdata.value)
                 return formTemplate = (
                     <div className="">
                         {

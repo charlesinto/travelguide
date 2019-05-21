@@ -1,11 +1,20 @@
-import { RIDE_SELECTED, PREFERENCES_SELECTED } from "../Actions/types";
+import { RIDE_SELECTED, PREFERENCES_SELECTED, FETCH_BOOK_STATE } from "../Actions/types";
 
 const INITIAL_STATE = {
     selectedRide: {},
-    preferences: {}
+    preferences: {},
+    formdata: {}
 }
 export default (state = INITIAL_STATE, actions) => {
     switch (actions.type) {
+        case FETCH_BOOK_STATE:
+            const newFormData = fillContactDetails(actions.payload.tripPreferences.numberOfSeats, state);
+            return {
+                ...state,
+                selectedRide: actions.payload.tripPreferences,
+                preferences: actions.payload.rideDetail,
+                formdata: newFormData
+            }
         case PREFERENCES_SELECTED:
             return { ...state, preferences: actions.payload }
         case RIDE_SELECTED:
@@ -13,4 +22,61 @@ export default (state = INITIAL_STATE, actions) => {
         default:
             return state;
     }
+}
+
+const fillContactDetails = (numberOfPassengers, state) => {
+    const numberOfSeats = parseInt(numberOfPassengers);
+    const formdata = { ...state.formdata };
+    for (let i = 0; i < numberOfSeats; i++) {
+        formdata[`keys-${i}-name`] = {
+            element: 'input',
+            value: '',
+            config: {
+                label: 'To:',
+                name: `number_o_${i}_input`,
+                type: 'text',
+                placeholder: 'Enter full name'
+            },
+            validation: {
+                required: true,
+            },
+            valid: false,
+            validationMessage: '',
+            showLabel: false
+        }
+        formdata[`keys-${i}-email`] = {
+            element: 'input',
+            value: '',
+            config: {
+                label: 'To:',
+                name: `number_o_${i}_input`,
+                type: 'email',
+                placeholder: 'Enter Email Address'
+            },
+            validation: {
+                required: true,
+            },
+            valid: false,
+            validationMessage: '',
+            showLabel: false
+        }
+        formdata[`keys-${i}-contact`] = {
+            element: 'input',
+            value: '',
+            config: {
+                label: 'To:',
+                name: `number_o_${i}_input`,
+                type: 'text',
+                placeholder: 'Enter Contact Number'
+            },
+            validation: {
+                required: true,
+            },
+            valid: false,
+            validationMessage: '',
+            showLabel: false
+        }
+
+    }
+    return formdata
 }

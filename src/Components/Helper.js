@@ -11,11 +11,9 @@ class Helper {
             ...newFormData[element.id]
         }
         newElementDetails.value = element.event.target.value;
-        console.log('excss')
         let validData = this.validate(newElementDetails, formdata, element.id);
         newElementDetails.valid = validData[0];
         newElementDetails.validationMessage = validData[1];
-        console.log('neled', newElementDetails)
         if (element.id === 'tripType') {
             newElementDetails.value = `${!newElementDetails.checkedState ? 'return trip' : 'one way trip'}`;
             newElementDetails.checkedState = !newElementDetails.checkedState
