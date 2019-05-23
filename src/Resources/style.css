@@ -36,7 +36,9 @@ body{
 .header nav ul li:hover a, .company-logo:hover a{
     text-decoration: none;
 }
-
+.landing_image_form_conatiner{
+    height: 100vh;
+}
 .carrousel_image{
     background-size: cover !important;
     background-repeat: no-repeat !important;
@@ -49,7 +51,7 @@ body{
     right: 30px;
 }
 .form{
-    background: #2d3a44;
+    background: rgb(0,0,0,0.5);
     opacity: 0.8;
     max-width: 600px;
     margin: 0 auto;
@@ -64,9 +66,9 @@ body{
     color: #fff !important;
 }
 .book_order_details{
-    position: relative;
-    top: 60px;
     margin: 0 10px;
+    padding: 65px 0px 0 0;
+    min-height: 100vh;
 }
 .card_container{
     display: flex;
@@ -110,7 +112,7 @@ body{
 
 .c_trip_o_header{
     display: flex;
-    margin-top:50px;
+    /* margin-top:50px; */
 }
 
 .trip_headers{
@@ -178,5 +180,121 @@ body{
         border: 1px solid #969191;
         border-radius: 4px;
     }
+    .desktop-transaction-table-view{
+        width: 90%;
+        overflow: auto;
+        overflow-y: hidden;
+        margin: 0 auto;
+    }
+    /* .mobile-view{
+        display: flex !important;
+    } */
+    /* .desktop-view{
+        display: none !important;
+    } */
     
+}
+#modal{
+    position: fixed;
+    top: 0;
+    left: 0;
+    background: rgb(0,0,0,0.5);
+    z-index: 1000;
+}
+.modal-container{
+    width: 100vw;
+    height:100vh;
+}
+
+.inner-modal{  
+    position: relative;
+    top: 20%;
+    /* left: 50%; */
+    width: 100%;
+}
+
+.modal-view{
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    padding: 10px;
+    border-radius: 4px;
+    box-shadow: 1px 2px grey;
+}
+.modal-header{
+    font-size: larger;
+}
+.modal-footer{
+    display: flex;
+    padding: 10px 0px;
+    justify-content: flex-end;
+}
+
+.body-container{
+    text-align: center;
+}
+.body-view-info{
+    color: #000 !important;
+    font-size: larger !important;
+    font-weight: 600 !important;
+}
+
+.body-tag{
+    /* color: #c1c106; */
+    text-align: center;
+}
+
+.body-tag strong {
+
+}
+
+.view-actions{
+    display: flex;
+    justify-content: flex-end;
+    margin: 10px 10px 10px 0px;
+}
+.book-page-completed-contaiiner{
+    max-width: 1000px;
+    margin: 0 auto;
+}
+.book-success-status-container{
+    text-align: center !important;
+}
+.book-success{
+    color: #28a745;
+    font-family: roboto, sans-serif, 'Times New Roman', Times, serif;
+    margin: 10px 0px;
+    font-size: 2rem;
+}
+
+.book-complete-download-button{
+    text-align: right !important;
+    margin: 10px 0px;
+}
+
+.desktop-transaction-table-view{
+    
+}
+.page-footer p {
+    color: #fff;
+    font-size: 16px;
+    font-family: roboto, sans-serif;
+}
+.page-footer p a {
+    text-decoration: none;
+    color: #fff !important
+}
+.page-footer p a:hover{
+    text-decoration: none;
+}
+.book-completed-divider{
+    font-size: 22px;
+    text-align: center;
+    font-family: roboto, sans-serif;
+}
+
+.page-footer{
+    background: #33465B;
+    padding: 20px 0px;
 }
