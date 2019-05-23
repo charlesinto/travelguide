@@ -5,6 +5,7 @@ import { LineBreak } from "../Common";
 import * as actions from "../../Actions";
 import CardDetail from "./CardDetail";
 import Helper from ".././Helper";
+import { Button } from "@material-ui/core";
 import { withStyles } from '@material-ui/core/styles';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
@@ -14,7 +15,7 @@ import FormControl from '@material-ui/core/FormControl';
 class TripDetails extends Component {
 
     state = {
-        paymentType: 'Pay On Arrival',
+        paymentType: '',
         formdata: {
 
         }
@@ -35,7 +36,7 @@ class TripDetails extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             formdata: nextProps.formdata,
-        }, () => console.log('this sate', this.state));
+        });
     }
     viewRideDetails() {
         const { preferences:
@@ -91,10 +92,10 @@ class TripDetails extends Component {
             </div>
         )
     }
-    handleChange(event) {
+    onPaymentOptionSelectedChange(event) {
         this.setState({
             paymentType: event.target.value
-        })
+        }, () => this.props.modal('Reserve Booking', 'd347nV8MVB'))
     }
     paymentMethod() {
         const { classes } = this.props;
@@ -105,7 +106,7 @@ class TripDetails extends Component {
                     name="payment-type"
                     value={this.state.paymentType}
                     classes={{ root: classes.root }}
-                    onChange={(e) => this.handleChange(e)}
+                    onChange={(e) => this.onPaymentOptionSelectedChange(e)}
                 >
                     <FormControlLabel
                         value="Reserve Booking"
@@ -113,13 +114,11 @@ class TripDetails extends Component {
                         label="Reserve Booking"
                     />
                     <FormControlLabel
-                        iconStyle={{ fill: '#061250' }}
                         value="Pay Online"
                         control={<Radio classes={{ root: classes.radio, checked: classes.checked }} />}
                         label="Pay Online"
                     />
                     <FormControlLabel
-                        iconStyle={{ fill: '#061250' }}
                         value="Pay On Arrival"
                         control={<Radio classes={{ root: classes.radio, checked: classes.checked }} />}
                         label="Pay On Arrival"
@@ -129,7 +128,6 @@ class TripDetails extends Component {
         )
     }
     onChange(element) {
-        console.log(element);
         const newFormData = Helper.update(element, this.state.formdata, 'register')
         this.setState({
             formError: false,
@@ -142,7 +140,6 @@ class TripDetails extends Component {
         for (let i = 0; i < numberOfLines; i++) {
             elements.push(<CardDetail i={i} state={this.state} onChange={(element) => this.onChange(element)} />)
         }
-        console.log(elements);
         return (
             <div className="conatiner">
                 <form>
@@ -155,11 +152,19 @@ class TripDetails extends Component {
             </div>
         )
     }
+    onContinueButtonClick(e) {
+        this.props.history.push('/book/new_trip/book_completed')
+    }
     render() {
         return (
             <div>
                 <div className="book_order_details">
                     {this.viewRideDetails()}
+                </div>
+                <div className="view-actions">
+                    <Button variant="contained" color="primary" onClick={(e) => this.onContinueButtonClick(e)}>
+                        continue
+                    </Button>
                 </div>
             </div>
         );

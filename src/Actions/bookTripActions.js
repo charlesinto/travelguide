@@ -15,8 +15,9 @@ const fetchState = (state) => {
     }
 }
 
+
 export {
     bookTrip,
-    fetchState
+    fetchState,
 }
 

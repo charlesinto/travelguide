@@ -2,7 +2,6 @@ import React from 'react';
 import { FormField } from "../Common";
 
 const CardDetail = ({ i, state, onChange }) => {
-    console.log(i, state, onchange)
     return (
         <div className="row">
             <div className="col-sm-4">

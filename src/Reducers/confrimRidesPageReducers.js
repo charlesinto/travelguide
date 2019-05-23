@@ -1,9 +1,11 @@
-import { RIDE_SELECTED, PREFERENCES_SELECTED, FETCH_BOOK_STATE } from "../Actions/types";
+import { RIDE_SELECTED, PREFERENCES_SELECTED, FETCH_BOOK_STATE, MODAL_ACTIONS } from "../Actions/types";
 
 const INITIAL_STATE = {
     selectedRide: {},
     preferences: {},
-    formdata: {}
+    formdata: {},
+    modal: '',
+    modalDetails: ''
 }
 export default (state = INITIAL_STATE, actions) => {
     switch (actions.type) {
@@ -19,6 +21,8 @@ export default (state = INITIAL_STATE, actions) => {
             return { ...state, preferences: actions.payload }
         case RIDE_SELECTED:
             return { ...state, selectedRide: actions.payload }
+        case MODAL_ACTIONS:
+            return { ...state, modal: actions.payload.type, modalDetails: actions.payload.details }
         default:
             return state;
     }
