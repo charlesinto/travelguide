@@ -145,6 +145,7 @@ class TripDetails extends Component {
                 <form>
                     {elements.map((item, i) => (
                         <div key={i}>
+                            <h3>Traveller {i + 1}</h3>
                             {item}
                         </div>
                     ))}

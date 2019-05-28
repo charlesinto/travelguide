@@ -1,5 +1,6 @@
-body{
+html, body{
     overflow-x: hidden;
+    max-width: 100%
 }
 .header-nav{
     margin: 0 !important;
@@ -156,6 +157,19 @@ body{
     color: #061250 !important;
 }
 @media screen and (max-width: 700px){
+    .desktop-links{
+        display: none;
+    }
+    .mobile-links{
+        display: flex !important;
+
+    }
+    body{
+        overflow-x: hidden;
+    }
+    .booking-form{
+        position: unset;
+    }
     .card_container{
         margin: 0 10px 10px 10px;
         flex-direction: column;
@@ -192,7 +206,22 @@ body{
     /* .desktop-view{
         display: none !important;
     } */
-    
+    .desktop-homepage{
+        display: none !important;
+    }
+    .mobile-homepage{
+        display: flex !important;
+    }
+    .page-footer{
+        min-height: 50vh;
+    }
+    .form {
+        background: #fff !important;
+        opacity: 1 !important;
+    }
+    .form form label{
+        color: #000 !important;
+    }
 }
 #modal{
     position: fixed;
