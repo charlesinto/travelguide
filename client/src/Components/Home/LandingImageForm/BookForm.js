@@ -18,10 +18,7 @@ class BookForm extends Component {
                 config: {
                     label: 'From:',
                     name: 'origin_dp_input',
-                    options: [
-                        { key: 'ajah -> lagos', value: 'ajah -> lagos' },
-                        { key: 'oshodi -> lagos', value: 'oshodi -> lagos' }
-                    ],
+                    options: [],
                     type: 'select',
                     placeholder: 'Departure Terminal'
                 },
@@ -38,10 +35,7 @@ class BookForm extends Component {
                 config: {
                     label: 'From:',
                     name: 'dp_input',
-                    options: [
-                        { keys: 'Enugu', value: 'Enugu' },
-                        { keys: 'Abuja', value: 'Abuja' }
-                    ],
+                    options: [],
                     type: 'select',
                     placeholder: 'Departure Terminal'
                 },
@@ -128,23 +122,49 @@ class BookForm extends Component {
                 showLabel: false
             }
 
-        }
+        },
+        terminals: []
     }
     componentDidMount() {
-        axios.get('/api/v1/trips')
-            .then(result => {
-                console.log('results', result)
-            })
-            .catch(err => {
-                throw err;
-            })
+        this.getRoutes();
+    }
+    async getRoutes() {
+        try {
+            const response = await axios.get('/api/v1/trips');
+            const { status, data: { terminals } } = response;
+            if (status === 200) {
+                const formdata = Helper
+                    .populateDropdown(this.state.formdata, { origin: terminals });
+
+                this.setState({
+                    formdata,
+                    terminals
+                })
+            }
+        } catch (err) {
+            console.log('error', err);
+        }
+
     }
     onChange(element) {
         const newFormData = Helper.update(element, this.state.formdata, 'register')
         this.setState({
             formError: false,
             formdata: { ...newFormData }
+        }, () => {
+            if (element.id === 'origin') {
+                const selectedId = this.state.formdata[element.id].value;
+                const selectedItem = this.state.terminals.filter(item => item.id === parseInt(selectedId))
+                const { state } = selectedItem[0];
+                const arrivaldestinations = this.state.terminals.filter(item => item.state !== state);
+                const newFormData = Helper.resetField(this.state.formdata, 'destination');
+                const filteredDropDownFormdata = Helper.populateDropdown(newFormData, { destination: arrivaldestinations })
+                this.setState({
+                    formdata: filteredDropDownFormdata
+                })
+            }
         })
+
     }
     onBookNow(e) {
         e.preventDefault();

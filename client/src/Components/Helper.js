@@ -1,6 +1,4 @@
 
-
-
 class Helper {
 
     static update(element, formdata, formName) {
@@ -25,13 +23,17 @@ class Helper {
         return newFormData;
 
     }
-    static populateDropdown(formdata, values, field) {
+    static populateDropdown(formdata, fieldValues) {
         const newFormData = { ...formdata }
-        const newDropdownArray = newFormData[field].config.options;
-        values.forEach(item => {
-            newDropdownArray.push({ key: item.id, value: item.name })
-        });
-        newFormData[field].config.options = newDropdownArray;
+        const keys = Object.keys(fieldValues)
+        for (let i = 0; i < keys.length; i++) {
+            const newDropdownArray = newFormData[keys[i]].config.options;
+            fieldValues[keys[i]].forEach(item => {
+                newDropdownArray.push({ key: item.id, value: `${item.terminal.toUpperCase()} - [${item.state.toUpperCase()}]` })
+            });
+            newFormData[keys[i]].config.options = newDropdownArray;
+        }
+
         return newFormData;
     }
     static validate(elementData, formdata = [], id) {
@@ -55,7 +57,12 @@ class Helper {
         }
         return error;
     }
-
+    static resetField(formdata, id) {
+        const newFormData = { ...formdata };
+        newFormData[id].value = '';
+        newFormData[id].config.options = []
+        return newFormData;
+    }
     static validateForm(form, type) {
         let objectToSubmit = {};
         let formIsValid = null;;

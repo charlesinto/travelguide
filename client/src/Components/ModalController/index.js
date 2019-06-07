@@ -5,7 +5,6 @@ import InnerModal from "./innerModal";
 import ReserveTicket from "./reserveTicketModal";
 class ModalController extends Component {
     renderModal() {
-        console.log('this.props', this.props.modal);
         switch (this.props.modal) {
             case 'Reserve Booking':
                 return <div className="modal-container">
