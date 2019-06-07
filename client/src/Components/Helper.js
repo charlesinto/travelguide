@@ -99,6 +99,9 @@ class Helper {
         }
         return { ...formdata };
     }
+    static capitalize(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
     static isEmpty(obj) {
         for (let key in obj) {
             if (obj.hasOwnProperty(key))
