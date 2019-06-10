@@ -1,4 +1,4 @@
-import { PREFERENCES_SELECTED, FETCH_BOOK_STATE } from "./types";
+import { PREFERENCES_SELECTED, FETCH_BOOK_STATE, UPDATE_STATE } from "./types";
 
 const bookTrip = (tripPreference) => {
     sessionStorage.setItem("preference", JSON.stringify(tripPreference))
@@ -15,9 +15,15 @@ const fetchState = (state) => {
     }
 }
 
-
+const updateState = (formdata) => {
+    return {
+        type: UPDATE_STATE,
+        payload: formdata
+    }
+}
 export {
     bookTrip,
     fetchState,
+    updateState
 }
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { LineBreak } from "../Common";
+import { LineBreak, AC } from "../Common";
 import * as actions from "../../Actions";
 import CardDetail from "./CardDetail";
 import Helper from ".././Helper";
@@ -16,6 +16,7 @@ class TripDetails extends Component {
 
     state = {
         paymentType: '',
+        validationMessage: '',
         formdata: {
 
         }
@@ -39,9 +40,15 @@ class TripDetails extends Component {
         });
     }
     viewRideDetails() {
-        const { preferences:
-            { carUrl, companyName, carType, carCapacity, ridePrice },
-            selectedRide: { origin, destination } } = this.props;
+        const { carName, carImageUrl, companyname,
+            carType, price_per_seat, capacity,
+            trip_start_state, trip_end_state, ac, startTerminal, arrivalTerminal } = this.props.preferences;
+        const origin = `${Helper.capitalize(trip_start_state)} [${Helper.capitalize(startTerminal)}]`;
+        const destination = `${Helper.capitalize(trip_end_state)} [${Helper.capitalize(arrivalTerminal)}]`;
+        const carUrl = carImageUrl
+        const companyName = Helper.capitalize(companyname)
+        const ridePrice = price_per_seat
+        const carCapacity = capacity
         return (
             <div className="container-fluid">
                 <div className="row">
@@ -66,18 +73,22 @@ class TripDetails extends Component {
                                 <p> Capacity</p>
                                 <p> From</p>
                                 <p> To</p>
-                                <p>Available Seats</p>
+                                <p>Car Name</p>
+                                <p className="p-margin">Available Seats</p>
                                 <p>Type</p>
                                 <p>Price</p>
                             </div>
                             <div className="trip_headers_values">
                                 <p>{companyName}</p>
-                                <p>{carCapacity}</p>
+                                <p>{carCapacity} seats</p>
                                 <p>{origin}</p>
                                 <p>{destination}</p>
+                                <div className="car-name-div-icon">
+                                    <span>{carName} </span><AC ac={ac} />
+                                </div>
                                 <p>Not Available</p>
                                 <p>{carType}</p>
-                                <p>&#8358; {ridePrice}</p>
+                                <p>&#8358; {ridePrice} Per Seat</p>
                             </div>
 
                         </div>
@@ -95,7 +106,8 @@ class TripDetails extends Component {
     onPaymentOptionSelectedChange(event) {
         this.setState({
             paymentType: event.target.value
-        }, () => this.props.modal('Reserve Booking', 'd347nV8MVB'))
+        })
+        //() => this.props.modal('Reserve Booking', 'd347nV8MVB')
     }
     paymentMethod() {
         const { classes } = this.props;
@@ -154,13 +166,58 @@ class TripDetails extends Component {
         )
     }
     onContinueButtonClick(e) {
-        this.props.history.push('/book/new_trip/book_completed')
+        //this.props.history.push('/book/new_trip/book_completed')
+        this.props.updateState(this.state.formdata)
+        const travellerDetails = this.getTravellerDetails();
+        const { isValid, validationMessage } = this.validateFormData(travellerDetails);
+        return isValid ? this.processForm() : this.showValidationMessage(validationMessage);
+    }
+    processForm() {
+
+    }
+    showValidationMessage(validationMessage) {
+        this.props.modal('Alert', validationMessage)
+    }
+    validateFormData(form) {
+        console.log('form', form);
+        let isValid = true;
+        let validationMessage = '';
+        for (let i = 0; i < form.length; i++) {
+            if (form[i].fullname.trim() === '' || form[i].phonenumber.trim() === '' || form[i].email.trim() === '') {
+                isValid = false;
+                validationMessage = 'Incomplete/Incorrect Form details'
+                break;
+            }
+        }
+        if (this.state.paymentType.trim() === '') {
+            isValid = false;
+            if (validationMessage.trim() === '') {
+                validationMessage = 'Please choose a payment payment'
+            } else {
+                validationMessage += ' and please choose a payment method'
+            }
+
+        }
+        return { isValid, validationMessage }
+    }
+    getTravellerDetails() {
+        const number_of_tickets = parseInt(this.props.selectedRide.numberOfSeats);
+        const form = this.state.formdata;
+        const passenger_details = [];
+        for (let i = 0; i < number_of_tickets; i++) {
+            passenger_details.push({
+                fullname: form[`keys-${i}-name`].value,
+                email: form[`keys-${i}-email`].value,
+                phonenumber: form[`keys-${i}-contact`].value
+            })
+        }
+        return passenger_details;
     }
     render() {
         return (
             <div>
                 <div className="book_order_details">
-                    {this.viewRideDetails()}
+                    {this.isObjectEmpty(this.props.preferences) ? null : this.viewRideDetails()}
                 </div>
                 <div className="view-actions">
                     <Button variant="contained" color="primary" onClick={(e) => this.onContinueButtonClick(e)}>

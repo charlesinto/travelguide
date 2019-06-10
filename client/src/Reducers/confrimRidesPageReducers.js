@@ -1,4 +1,4 @@
-import { RIDE_SELECTED, PREFERENCES_SELECTED, FETCH_BOOK_STATE, MODAL_ACTIONS } from "../Actions/types";
+import { RIDE_SELECTED, PREFERENCES_SELECTED, FETCH_BOOK_STATE, MODAL_ACTIONS, UPDATE_STATE } from "../Actions/types";
 
 const INITIAL_STATE = {
     selectedRide: {},
@@ -21,6 +21,8 @@ export default (state = INITIAL_STATE, actions) => {
             return { ...state, preferences: actions.payload }
         case RIDE_SELECTED:
             return { ...state, selectedRide: actions.payload }
+        case UPDATE_STATE:
+            return { ...state, formdata: actions.payload }
         case MODAL_ACTIONS:
             return { ...state, modal: actions.payload.type, modalDetails: actions.payload.details }
         default:
@@ -70,7 +72,7 @@ const fillContactDetails = (numberOfPassengers, state) => {
             config: {
                 label: 'To:',
                 name: `number_o_${i}_input`,
-                type: 'text',
+                type: 'number',
                 placeholder: 'Enter Contact Number'
             },
             validation: {
