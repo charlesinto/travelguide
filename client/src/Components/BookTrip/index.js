@@ -15,7 +15,7 @@ class index extends Component {
         this.props.get_avialableTrips({ startterminalid: parseInt(origin), arrivalterminalid: parseInt(destination) });
     }
     onBookRideClick(id) {
-        const selectedRide = this.props.rides.find(item => item.id === id)
+        const selectedRide = this.props.routes.find(item => item.id === id)
         this.props.rideSelected(selectedRide);
         this.props.history.push(`/book/new_trip/${id}/order`)
     }

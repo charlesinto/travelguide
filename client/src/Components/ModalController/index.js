@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import { connect } from "react-redux";
 import InnerModal from "./innerModal";
 import ReserveTicket from "./reserveTicketModal";
+import Alert from './Alert';
+
 class ModalController extends Component {
     renderModal() {
         switch (this.props.modal) {
@@ -12,6 +14,14 @@ class ModalController extends Component {
                         <ReserveTicket info={this.props.modalDetails} />
                     </InnerModal>
                 </div>
+            case 'Alert':
+                return (
+                    <div className="modal-container">
+                        <InnerModal>
+                            <Alert info={this.props.modalDetails} />
+                        </InnerModal>
+                    </div>
+                )
             default:
                 return null
         }
