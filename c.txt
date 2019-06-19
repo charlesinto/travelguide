@@ -1,0 +1,14 @@
+CALL `travelguidev1`.`trips_create_register`('ajah',
+ 'garriki',
+ 2,
+ '2019-06-12',
+1,
+5,
+1,
+ 2000,
+'interswitch',
+ 'gsjs8981019',
+ 4000,
+ 'online booking');
+ 
+

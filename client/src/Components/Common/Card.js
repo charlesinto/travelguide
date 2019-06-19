@@ -10,13 +10,13 @@ class Card extends Component {
     }
     render() {
         const { carName, carImageUrl, companyname,
-            carType, price_per_seat, capacity, id,
-            trip_start_state, trip_end_state, ac, startTerminal, arrivalTerminal } = this.props.rideDetail;
+            carType, price_per_seat, id,
+            trip_start_state, trip_end_state, ac, available_seats, startTerminal, arrivalTerminal } = this.props.rideDetail;
 
         const carUrl = carImageUrl
         const companyName = Helper.capitalize(companyname)
         const ridePrice = price_per_seat
-        const carCapacity = capacity
+        //const carCapacity = capacity
         return (
             <div className="card_container">
                 <div className="car_image"
@@ -70,7 +70,7 @@ class Card extends Component {
                                 >
                                 </div>
                                 <div className="number_of_seat">
-                                    <span className="seat_number">{carCapacity} seats</span>
+                                    <span className="seat_number">{available_seats} seat(s) available</span>
                                 </div>
                             </div>
                         </div>
@@ -78,7 +78,7 @@ class Card extends Component {
                             <span><strong>&#8358; {ridePrice}</strong></span>
                         </div>
                         <div className="book_action">
-                            <div><button className="btn btn-primary" onClick={(e) => this.bookRide(e, id)}>Book</button></div>
+                            <div><button className="btn btn-primary" style={{ width: 'fit-contents' }} onClick={(e) => this.bookRide(e, id)}>View Seats</button></div>
                         </div>
                     </div>
                 </div>

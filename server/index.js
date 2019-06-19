@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import cookieParser from 'cookie-parser';
 import tripRoutes from "./Routes/TripRoutes";
+import bookRoutes from './Routes/BookTrip';
 import "dotenv/config";
 
 const app = express()
@@ -15,6 +16,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use('/api/v1/trips', tripRoutes);
+app.use('/api/v1/book_trip', bookRoutes);
 
 app.listen(port, () => {
     console.log(`server listening on port ${port}`)

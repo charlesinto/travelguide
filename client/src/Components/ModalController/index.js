@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import InnerModal from "./innerModal";
 import ReserveTicket from "./reserveTicketModal";
 import Alert from './Alert';
+import ViewSeats from "./ViewSeats";
 
 class ModalController extends Component {
     renderModal() {
@@ -19,6 +20,15 @@ class ModalController extends Component {
                     <div className="modal-container">
                         <InnerModal>
                             <Alert info={this.props.modalDetails} />
+                        </InnerModal>
+                    </div>
+                )
+
+            case 'viewSeats':
+                return (
+                    <div className="modal-container">
+                        <InnerModal>
+                            <ViewSeats info={this.props.modalDetails} />
                         </InnerModal>
                     </div>
                 )

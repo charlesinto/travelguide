@@ -108,7 +108,8 @@ html, body{
 }
 
 .book_action button{
-    width:100px;
+    width:fit-content;
+    padding: 5px 5px;
 }
 
 .c_trip_o_header{
@@ -228,6 +229,20 @@ html, body{
     .p-margin{
         margin-top:40px !important;
     }
+    .car-box{
+        max-width: 70% !important;
+    }
+    .keys{
+        flex-direction: column;
+        /* align-items: center; */
+    }
+    .modal-view{
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    .inner-modal{
+        top: 5% !important;
+    }
 }
 #modal{
     position: fixed;
@@ -243,7 +258,7 @@ html, body{
 
 .inner-modal{  
     position: relative;
-    top: 20%;
+    top: 7%;
     /* left: 50%; */
     width: 100%;
 }
@@ -409,4 +424,64 @@ p.not-found{
 
 .p-margin{
     margin-top: 13px;
+}
+
+.DayPickerInput{
+    width: 100%;
+}
+
+.DayPickerInput input{
+    width: 100%;
+}
+.car-seat{
+    background-size: cover !important;
+}
+.car-container{
+
+}
+
+.car-layout{
+
+}
+.seat-numer{
+    top: -20px;
+    left: 9px;
+    color: #2b2a2b;
+    font-weight: 600;
+    font-size: 18px;
+}
+.seat-next-to-sterring{
+    margin-right: 20px;
+}
+.car-seat-selected{
+    cursor: pointer;
+}
+.car-box{
+    /* max-width: 104px; */
+    width: fit-content;
+    min-height: 100px;
+    margin: 0 auto;
+    padding: 10px 20px;
+    border: 1px solid lightgrey;
+    border-radius: 7px;
+
+}
+.rows{
+    display: flex;
+    margin-top: 20px;
+    justify-content: space-between;
+}
+
+.key-box{
+    display: flex;
+    margin-right: 10px;
+}
+.keys{
+    display: flex;
+    justify-content: center;
+    padding: 15px 0px;
+}
+.key-box p{
+    line-height: 29px;
+    font-size: 14px;
 }

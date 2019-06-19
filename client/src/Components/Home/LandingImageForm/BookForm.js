@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
+import DayPickerInput from "react-day-picker/DayPickerInput";
+import "react-day-picker/lib/style.css";
 import * as actions from '../../../Actions'
 import Helper from "../../Helper";
 import { FormField } from "../../Common";
+import { MAX_DAY } from "../../../Actions/types";
 import { withRouter } from "react-router-dom";
 import axios from "axios";
 
@@ -166,15 +169,44 @@ class BookForm extends Component {
         })
 
     }
+    handleDayChange(value, id) {
+        const newFormData = { ...this.state.formdata };
+        newFormData[id].value = this.formatDate(value);
+        newFormData[id].valid = true;
+        this.setState({
+            formdata: { ...newFormData }
+        })
+    }
+    formatDate(date) {
+        const dateSelected = new Date(date);
+        const month = parseInt(dateSelected.getMonth()) < 10 ?
+            '0' + (parseInt(dateSelected.getMonth()) + 1) : (parseInt(dateSelected.getMonth()) + 1);
+        const day = parseInt(dateSelected.getDate()) < 10 ? '0' + dateSelected.getDate() : dateSelected.getDate();
+        return `${dateSelected.getFullYear()}-${month}-${day}`;
+    }
     onBookNow(e) {
         e.preventDefault();
-        const dataToSubmit = Helper.validateForm(this.state.formdata, 'login');
+        let dataToSubmit = {};
+        if (this.state.formdata['tripType'].value === 'return trip') {
+            dataToSubmit = Helper.validateForm(this.state.formdata, 'login');
+        } else {
+            const newFormData = { ...this.state.formdata };
+            newFormData.arrival_date.valid = true;
+            dataToSubmit = Helper.validateForm(newFormData, 'login');
+        }
         if (!dataToSubmit.isValid) {
             return this.setState({ formError: true })
         }
         console.log(dataToSubmit.record);
         this.props.bookTrip(dataToSubmit.record);
         this.props.history.push('/book/new_trip');
+    }
+    getLimitDay() {
+        const today = new Date();
+        const limitday = today.getDate() + MAX_DAY;
+        const tomorrow = new Date(today.getFullYear(), today.getMonth(), limitday);
+
+        return tomorrow
     }
     render() {
         return (
@@ -223,14 +255,30 @@ class BookForm extends Component {
                                     />
                                 </div>
                                 <div className="form-group">
-                                    <label htmlFor="depature_date">Depature Date</label>
-                                    <FormField
-                                        id={'depature_date'}
-                                        icon={'glyphicon-home'}
-                                        formdata={this.state.formdata['depature_date']}
-                                        onFocusChange={(focus) => console.log(focus)}
-                                        change={(element) => this.onChange(element)}
-                                    />
+                                    <div>
+                                        <label htmlFor="depature_date">Depature Date</label>
+                                    </div>
+                                    <div>
+                                        <DayPickerInput
+                                            placeholder={'YYYY-MM-DD'}
+                                            dayPickerProps={{
+                                                modifiers: {
+                                                    highlighted: new Date(),
+                                                    disabled: [
+                                                        {
+                                                            before: new Date(),
+
+                                                        },
+                                                        {
+                                                            after: this.getLimitDay()
+                                                        }
+                                                    ]
+                                                }
+                                            }}
+                                            component={props => <input {...props} id={'depature_date'} readOnly={'readonly'} />}
+                                            onDayChange={(value) => this.handleDayChange(value, 'depature_date')}
+                                        />
+                                    </div>
                                 </div>
                                 <div className="form-check">
                                     <FormField
@@ -251,15 +299,30 @@ class BookForm extends Component {
                                     this.state.formdata['tripType'].checkedState ?
 
                                         <div className="form-group">
-                                            <label htmlFor="arrival_date">Arrival Date</label>
-                                            <FormField
-                                                id={'arrival_date'}
-                                                icon={'glyphicon-home'}
-                                                formdata={this.state.formdata['arrival_date']}
-                                                onFocusChange={(focus) => console.log(focus)}
-                                                change={(element) => this.onChange(element)}
+                                            <div>
+                                                <label htmlFor="depature_date">Arrival Date</label>
+                                            </div>
+                                            <div>
+                                                <DayPickerInput
+                                                    placeholder={'YYYY-MM-DD'}
+                                                    dayPickerProps={{
+                                                        modifiers: {
+                                                            highlighted: new Date(),
+                                                            disabled: [
+                                                                {
+                                                                    before: new Date(),
 
-                                            />
+                                                                },
+                                                                {
+                                                                    after: this.getLimitDay()
+                                                                }
+                                                            ]
+                                                        }
+                                                    }}
+                                                    component={props => <input {...props} id={'arrival_date'} readOnly={'readonly'} />}
+                                                    onDayChange={(value) => this.handleDayChange(value, 'arrival_date')}
+                                                />
+                                            </div>
                                         </div>
                                         : null
                                 }
