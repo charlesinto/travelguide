@@ -1,4 +1,7 @@
-import { RIDE_SELECTED, FETCH_RIDES, FETCH_ROUTES, RESET_LOADING_TO_TRUE, NOT_FOUND } from "./types";
+import {
+    RIDE_SELECTED, FETCH_RIDES, FETCH_ROUTES, RESET_LOADING_TO_TRUE,
+    NOT_FOUND, SEAT_SELECTED
+} from "./types";
 import axios from "axios";
 
 const rideSelected = (ride) => {
@@ -26,10 +29,10 @@ const get_avialableTrips = async (location) => {
         try {
             const response = await axios.post('/api/v1/trips/available_trips', location)
 
-            const { data: { trips } } = response;
+            const { data: { trips, bookedSeats } } = response;
             dispatch({
                 type: FETCH_ROUTES,
-                payload: trips
+                payload: { trips, bookedSeats }
             })
         } catch (err) {
             console.log('error', err)
@@ -43,9 +46,17 @@ const get_avialableTrips = async (location) => {
     }
 }
 
+const seatSelected = (seatnumber) => {
+    return {
+        type: SEAT_SELECTED,
+        payload: seatnumber
+    }
+}
+
 export {
     rideSelected,
     fetchRides,
     get_avialableTrips,
-    resetLoading
+    resetLoading,
+    seatSelected
 }
