@@ -9,7 +9,7 @@ const Carousel = () => {
         dots: false,
         infinite: true,
         autoplay: true,
-        speed: 1500
+        speed: 15000
     }
     return (
         <div className="landing_image_form_conatiner"

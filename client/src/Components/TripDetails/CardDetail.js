@@ -1,38 +1,38 @@
 import React from 'react';
 import { FormField } from "../Common";
 
-const CardDetail = ({ i, state, onChange }) => {
+const CardDetail = ({ count, state, onChange }) => {
     return (
         <div className="row">
             <div className="col-sm-4">
                 <div className="form-group">
-                    <label htmlFor={`keys-${i}-name`}>Full Name</label>
+                    <label htmlFor={`keys-${count}-name`}>Full Name</label>
                     <FormField
-                        id={`keys-${i}-name`}
+                        id={`keys-${count}-name`}
                         icon={'glyphicon-home'}
-                        formdata={state.formdata[`keys-${i}-name`]}
+                        formdata={state.formdata[`keys-${count}-name`]}
                         change={(element) => onChange(element)}
                     />
                 </div>
             </div>
             <div className="col-sm-4">
                 <div className="form-group">
-                    <label htmlFor={`keys-${i}-email`}>Email Address</label>
+                    <label htmlFor={`keys-${count}-email`}>Email Address</label>
                     <FormField
-                        id={`keys-${i}-email`}
+                        id={`keys-${count}-email`}
                         icon={'glyphicon-home'}
-                        formdata={state.formdata[`keys-${i}-email`]}
+                        formdata={state.formdata[`keys-${count}-email`]}
                         change={(element) => onChange(element)}
                     />
                 </div>
             </div>
             <div className="col-sm-4">
                 <div className="form-group">
-                    <label htmlFor={`keys-${i}-contact`}>Phone Number</label>
+                    <label htmlFor={`keys-${count}-contact`}>Phone Number</label>
                     <FormField
-                        id={`keys-${i}-contact`}
+                        id={`keys-${count}-contact`}
                         icon={'glyphicon-home'}
-                        formdata={state.formdata[`keys-${i}-contact`]}
+                        formdata={state.formdata[`keys-${count}-contact`]}
                         change={(element) => onChange(element)}
                     />
                 </div>

@@ -5,7 +5,7 @@ html, body{
 .header-nav{
     margin: 0 !important;
     padding: 0 !important;
-    background:#33465B;
+    background:#00535A;
     position: fixed;
     z-index: 999;
 }
@@ -46,10 +46,10 @@ html, body{
     background-position: center !important;
 }
 .booking-form{
-    position: absolute;
-    top: 75px;
+    /* position: absolute;
+    top: 75px; */
     width: 100%;
-    right: 30px;
+    /* right: 30px; */
 }
 .form{
     background: rgb(0,0,0,0.5);
@@ -217,8 +217,9 @@ html, body{
         min-height: 50vh;
     }
     .form {
-        background: #fff !important;
-        opacity: 1 !important;
+        /* background: #fff !important;
+        opacity: 1 !important; */
+        width: 80%;
     }
     .form form label{
         color: #000 !important;
@@ -233,8 +234,9 @@ html, body{
         max-width: 70% !important;
     }
     .keys{
-        flex-direction: column;
-        /* align-items: center; */
+        flex-direction: row;
+    /* align-items: center; */
+        flex-wrap: wrap;
     }
     .modal-view{
         max-height: 90vh;
@@ -243,6 +245,16 @@ html, body{
     .inner-modal{
         top: 5% !important;
     }
+    .mobile-card{
+        display: flex !important;
+        flex-direction: column;
+    }
+    .desktop-card{
+        display: none !important;
+    }
+}
+.modal-body{
+    padding: 0.5rem 1rem 0.5rem 1rem !important;
 }
 #modal{
     position: fixed;
@@ -262,7 +274,10 @@ html, body{
     /* left: 50%; */
     width: 100%;
 }
-
+.mobile-card-view{
+    display:flex;
+    flex: 1;
+}
 .modal-view{
     width: 80%;
     max-width: 600px;
@@ -345,7 +360,7 @@ html, body{
 }
 
 .page-footer{
-    background: #33465B;
+    background: #00535A;
     padding: 20px 0px;
 }
 
@@ -475,13 +490,201 @@ p.not-found{
 .key-box{
     display: flex;
     margin-right: 10px;
+    flex-basis: 170px;
 }
 .keys{
     display: flex;
     justify-content: center;
-    padding: 15px 0px;
+    padding: 15px 0px 0 0;
 }
 .key-box p{
     line-height: 29px;
     font-size: 14px;
+}
+
+.thmb-page{
+    width: 100%;
+    height: 60vh;
+}
+
+.thmb-page img{
+    max-width: 100%;
+    height: auto;
+    width: 100%;
+}
+
+section.main{
+    min-height: 60vh;
+    width: 100%;
+    background: #f3f3f3;
+    padding: 10px 5px;
+    margin-bottom: 30px;
+}
+
+h2.title{
+    margin: 10px 0px;
+    color: #198087;
+    font-size: 36px;
+    font-family: roboto, Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+}
+
+.form-manin{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.book-form-main{
+    display: flex;
+    flex-basis: 500px;
+    min-width: 60%;
+    background: #fff;
+    /* height: 400px; */
+    margin: 0px 10px;
+    box-shadow: 0 2px 5px 0 rgb(0,0,0,0.16);
+
+}
+
+.book-form-main .booking-form .col-sm-4{
+    display: none !important;
+}
+
+.book-form-main .booking-form .form {
+    opacity: 1 !important;
+    background: none !important;
+    padding: 10px 0px;
+}
+
+.book-form-main .booking-form .form label {
+    color: #198087 !important;
+}
+
+.book-form-main .booking-form .form .btn-primary{
+    background: #198087 !important;
+    border-color: #198087 !important;
+    width: 300px !important;
+    box-shadow: 0 2px 4px 0 rgb(0,0,0,0.9) !important;;
+}
+
+ .DayPickerInput input{
+    display: block;
+    width: 100%;
+    height: calc(1.5em + .75rem + 2px);
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    font-weight: 400;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+  }
+
+  .form-check{
+    margin-bottom: 10px;
+  }
+
+  .rd-features{
+        /* border: 1px solid rgba(0, 0, 0, 0.49); */
+    /* box-sizing: border-box; */
+    /* box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25); */
+    /* border-radius: 5px; */
+    width: 100%;
+    /* padding: 0px 13px; */
+    text-align: right;
+    display: flex;
+    justify-content: flex-end;
+  }
+.rd-t-view h2{
+    font-size: 1rem !important;
+}
+  .rd-features p {
+    font-family: roboto,'Courier New', Courier, monospace;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 14px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    
+    color: #413D3D;
+  }
+
+  .ride-price-tag p{
+    font-family: roboto, 'Courier New', Courier, monospace;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: right;
+    color: #413D3D;
+    margin-top: 1rem;
+  }
+.book_order_details{
+    background: #f3f3f3 !important;
+}
+  .mobile-card{
+      background: #fff;
+      box-shadow: 2px 5px 4px rgba(0, 0, 0, 0.16);
+      padding: 10px 5px;
+      margin: 10px 10px;
+  }
+.ac-class{
+    width: 60px;
+    /* width: 100%; */
+    text-align: center;
+    /* width: fit-content; */
+    border: 1px solid rgba(0, 0, 0, 0.49);
+    box-sizing: border-box;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    width: 60px;
+    padding: 0px 13px;
+}
+.rd-t-view{
+    padding: 0 10px;
+    flex:1;
+
+}
+.ride-price-tag{
+    margin-top: 2rem;
+}
+.rd-t-view2{
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    margin-right: 10px;
+    position: relative;
+}
+
+.view-seats-button{
+    background: #198087 !important;
+    border-color: #198087 !important;
+    /* width: 50px !important; */
+    box-shadow: 0 2px 4px 0 rgb(0,0,0,0.9) !important;
+    cursor: pointer;
+    width: fit-content;
+    color: #fff;
+    padding: 3px 5px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+.modal-confirm-button{
+    margin: 0 .25rem 0 0 !important;
+}
+
+.error-container{
+    background:#ffc107;
+    color: #fff;
+    text-align: center;
+    padding: 5px 10px;
+    font-size: 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    margin-bottom: 10px;
+    border-radius: 4px;
 }

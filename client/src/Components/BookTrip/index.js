@@ -10,10 +10,15 @@ class index extends Component {
     }
     componentDidMount() {
         const user_trip_choice = JSON.parse(sessionStorage.getItem('preference'));
-        const { origin, destination, depature_date } = user_trip_choice;
-        this.props.get_avialableTrips({
-            depature_date, startterminalid: parseInt(origin), arrivalterminalid: parseInt(destination)
-        });
+        if (user_trip_choice) {
+            const { origin, destination, depature_date } = user_trip_choice;
+            this.props.get_avialableTrips({
+                depature_date, startterminalid: parseInt(origin), arrivalterminalid: parseInt(destination)
+            });
+        } else {
+            this.props.history.push('/')
+        }
+
     }
     onBookRideClick(id) {
         const { depature_date } = JSON.parse(sessionStorage.getItem('preference'));
@@ -21,6 +26,7 @@ class index extends Component {
 
         const bookedseats = this.props.bookedseats.filter(item =>
             item.routeid === id && this.compareDate(item, depature_date));
+        this.props.initSeats();
         this.props.modal('viewSeats', { selectedRide, bookedseats });
     }
     compareDate(item, depature_date) {

@@ -4,3 +4,4 @@ export * from './LineBreak';
 export * from './AC';
 export * from './Loading';
 export * from './NotFound';
+export * from './Button';
