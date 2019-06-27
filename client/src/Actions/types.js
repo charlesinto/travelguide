@@ -11,3 +11,4 @@ export const RESET_LOADING_TO_TRUE = 'RESET_LOADING_TO_TRUE'
 export const UPDATE_STATE = 'UPDATE_STATE'
 export const MAX_DAY = 21
 export const SEAT_SELECTED = 'SEAT_SELECTED'
+export const INIT_SEATS = 'INIT_SEATS';

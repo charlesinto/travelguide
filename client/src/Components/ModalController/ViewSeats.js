@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import ModalHeader from "./ModalHeader";
 import { Button } from "@material-ui/core";
 import { connect } from "react-redux";
+import { withRouter } from "react-router-dom";
+import { ButtonContainer } from "../Common";
 import * as actions from "../../Actions";
 import Seat from "../Common/Seat";
 import sterring from "../../Resources/images/car/steering_wheel.svg";
@@ -10,6 +11,9 @@ import seatNaN from '../../Resources/images/car/seat_notavailable.svg';
 import seatPicked from '../../Resources/images/car/seat_picked.svg';
 
 class ViewSeats extends Component {
+    state = {
+        error: false
+    }
     onButtonClick() {
         this.props.modal();
     }
@@ -132,13 +136,43 @@ class ViewSeats extends Component {
 
         </div>)
     }
+    onContinueButtonClick(e){
+        e.preventDefault();
+        if(this.props.seats.length > 0){
+            this.props.modal();
+            const { info:{ selectedRide}, seats} = this.props;
+            sessionStorage
+                .setItem('selectedRide', JSON.stringify({...selectedRide,seats}))
+            this.props.history
+                .push(`/book/new_trip/${this.props.info.selectedRide.id}/order`)
+        }else{
+            this.setState({
+                error: !this.state.error
+            },  () => {
+                setTimeout(() => {
+                    this.setState({
+                        error: !this.state.error
+                    })
+
+                }, 5000)
+            })
+
+        }
+    }
+    renderError(){
+        return this.state.error ? 
+            <div className="error-container">
+                Please select one or more seats
+            </div> 
+            : null
+    }
     render() {
         const { selectedRide, bookedseats } = this.props.info;
         return (
             <div>
-                <ModalHeader />
                 <div className="modal-body">
                     <div className="car-container">
+                        {this.renderError()}
                         <div className="car-layout">
                             {this.renderCar(selectedRide, bookedseats)}
                         </div>
@@ -179,14 +213,23 @@ class ViewSeats extends Component {
                     <Button variant="outlined" color="secondary" onClick={(e) => this.onButtonClick(e)}>
                         Cancel
                     </Button>
-                    <Button variant="contained" color="primary" onClick={(e) => this.onButtonClick(e)}>
-                        Continue
-                    </Button>
+
+                    <ButtonContainer 
+                        className="modal-confirm-button" styles={{ 
+                        padding: '5px 16px',
+                        margin: '0 .25rem 0 0' }} text={'Continue'} 
+                        onClickHandler={(e) => this.onContinueButtonClick(e)} />
                 </div>
             </div>
         );
     }
 }
 
+const mapStateToProps = state => {
+    const { rides: { seats } } = state
+    return {
+        seats
+    }
+}
 
-export default connect(null, actions)(ViewSeats);
+export default connect(mapStateToProps, actions)(withRouter(ViewSeats));

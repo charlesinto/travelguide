@@ -25,7 +25,7 @@ class TripDetails extends Component {
         if (sessionStorage.getItem('preference') !== null && sessionStorage.getItem('selectedRide') !== null) {
             const tripPreferences = JSON.parse(sessionStorage.getItem('preference'))
             const rideDetail = JSON.parse(sessionStorage.getItem('selectedRide'));
-            this.props.fetchState({ tripPreferences, rideDetail })
+            this.props.fetchState({ tripPreferences, rideDetail }, )
         } else {
             this.props.history.push('/')
         }
@@ -37,12 +37,16 @@ class TripDetails extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             formdata: nextProps.formdata,
-        });
+        }, () => console.log('here now o',this.state.formdata));
+        console.log('here now o',this.state.formdata)
     }
     viewRideDetails() {
         const { carName, carImageUrl, companyname,
             carType, price_per_seat, capacity,
-            trip_start_state, trip_end_state, ac, startTerminal, arrivalTerminal } = this.props.preferences;
+            trip_start_state, trip_end_state, ac,
+             startTerminal, arrivalTerminal } = this.props.preference;
+             console.log(this.props.preference)
+        console.log(this.props.preferences)
         const origin = `${Helper.capitalize(trip_start_state)} [${Helper.capitalize(startTerminal)}]`;
         const destination = `${Helper.capitalize(trip_end_state)} [${Helper.capitalize(arrivalTerminal)}]`;
         const carUrl = carImageUrl
@@ -147,23 +151,33 @@ class TripDetails extends Component {
         })
     }
     fillContactDetails() {
-        const numberOfLines = this.props.selectedRide.numberOfSeats;
-        const elements = []
-        for (let i = 0; i < numberOfLines; i++) {
-            elements.push(<CardDetail i={i} state={this.state} onChange={(element) => this.onChange(element)} />)
+        const {seats} = JSON.parse(sessionStorage.getItem('selectedRide'));
+        console.log('statts' ,this.state.formdata)
+        if(Object.keys(this.state.formdata).length > 0){
+            const numberOfLines = seats.length;
+            console.log(numberOfLines, seats)
+            const elements = []
+            for (let i = 0; i < numberOfLines; i++) {
+                elements.push(<CardDetail count={i} state={this.state} 
+                    onChange={(element) => this.onChange(element)} />)
+            }
+            return (
+                <div className="conatiner">
+                    <form>
+                        {elements.map((item, i) => (
+                            <div key={i}>
+                                <h3>Traveller {i + 1}</h3>
+                                {item}
+                            </div>
+                        ))}
+                    </form>
+                </div>
+            )
+        }else{
+            console.log('ooooooo')
+            return null
         }
-        return (
-            <div className="conatiner">
-                <form>
-                    {elements.map((item, i) => (
-                        <div key={i}>
-                            <h3>Traveller {i + 1}</h3>
-                            {item}
-                        </div>
-                    ))}
-                </form>
-            </div>
-        )
+        
     }
     onContinueButtonClick(e) {
         //this.props.history.push('/book/new_trip/book_completed')
@@ -201,7 +215,8 @@ class TripDetails extends Component {
         return { isValid, validationMessage }
     }
     getTravellerDetails() {
-        const number_of_tickets = parseInt(this.props.selectedRide.numberOfSeats);
+        //const number_of_tickets = parseInt(this.props.selectedRide.numberOfSeats);
+        const number_of_tickets = this.props.seats.length;
         const form = this.state.formdata;
         const passenger_details = [];
         for (let i = 0; i < number_of_tickets; i++) {
@@ -245,11 +260,15 @@ const customStyle = theme => ({
     checked: {}
 })
 const mapStateToProps = state => {
-    const { selectedRide: { selectedRide, preferences, formdata } } = state;
+    const { selectedRide: { selectedRide, preferences, formdata },
+     rides :{ seats }} = state;
+     const preference = { ...preferences, ...selectedRide}
     return {
         selectedRide,
+        preference,
         preferences,
-        formdata
+        formdata,
+        seats
     }
 }
 export default connect(mapStateToProps, actions)(withStyles(customStyle)((withRouter(TripDetails))));

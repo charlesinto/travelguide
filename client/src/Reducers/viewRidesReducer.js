@@ -1,4 +1,4 @@
-import { FETCH_RIDES, FETCH_ROUTES, NOT_FOUND, SEAT_SELECTED, RESET_LOADING_TO_TRUE } from "../Actions/types";
+import { FETCH_RIDES, FETCH_ROUTES, NOT_FOUND, SEAT_SELECTED,INIT_SEATS, RESET_LOADING_TO_TRUE } from "../Actions/types";
 
 const INITIAL_STATE = {
     rides: [],
@@ -12,6 +12,8 @@ export default (state = INITIAL_STATE, actions) => {
     switch (actions.type) {
         case FETCH_RIDES:
             return { ...state }
+        case INIT_SEATS:
+            return {...state, seats:[]}
         case FETCH_ROUTES:
             return { ...state, loading: false, routes: actions.payload.trips, bookedseats: actions.payload.bookedSeats }
         case NOT_FOUND:
@@ -33,6 +35,5 @@ const enqueDequeSeats = (state, seatnumber) => {
         return { ...state, seats: [...bookedseats] }
     }
     const c = [...bookedseats, seatnumber]
-    console.log('ats', c)
     return { ...state, seats: c }
 }

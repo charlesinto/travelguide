@@ -28,25 +28,14 @@ class TripModel {
         let statement = 'insert into booked_car_seats(seatnumber, booknumber, tripnumber, datebooked) values'
         let values = ``;
         seats.forEach(seat => {
-            values = `(${seat}, '${booknumber}', ${tripnumber}, '${datebooked}');`
+            values += `(${seat}, '${booknumber}', ${tripnumber}, '${datebooked}'),`
 
         });
         let newValues = values.substring(0, values.length - 1);
-        // newValues += ';'
+        newValues += ';'
         statement += newValues;
         return statement;
     }
-    // changeBookSeatsToNotAvailable(seats, bookcarid) {
-    //     let statement = '';
-    //     seats.forEach(seat => {
-    //         statement += `
-    //             Update booked_car_seats_all
-    //             set isAvailable = ${0}
-    //             where bookedcarid = ${bookcarid} and seatnumber = ${seat};  
-    //         `
-    //     })
-    //     return statement;
-    // }
     combineQueries(arrayofQueries) {
         let statement = ``;
         arrayofQueries.forEach(query => {

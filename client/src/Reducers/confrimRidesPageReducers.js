@@ -10,7 +10,9 @@ const INITIAL_STATE = {
 export default (state = INITIAL_STATE, actions) => {
     switch (actions.type) {
         case FETCH_BOOK_STATE:
-            const newFormData = fillContactDetails(actions.payload.tripPreferences.numberOfSeats, state);
+            const {payload: { rideDetail: {seats }}} = actions;
+            console.log(seats)
+            const newFormData = fillContactDetails(seats.length, state);
             return {
                 ...state,
                 selectedRide: actions.payload.tripPreferences,
