@@ -231,8 +231,11 @@ class TripDetails extends Component {
     render() {
         return (
             <div>
+                { !Helper.isEmpty(this.props.preference) ?
+
+            <div>
                 <div className="book_order_details">
-                    {this.isObjectEmpty(this.props.preferences) ? null : this.viewRideDetails()}
+                    { this.viewRideDetails()}
                 </div>
                 <div className="view-actions">
                     <Button variant="contained" color="primary" onClick={(e) => this.onContinueButtonClick(e)}>
@@ -240,6 +243,10 @@ class TripDetails extends Component {
                     </Button>
                 </div>
             </div>
+                : null
+                }
+            </div>
+           
         );
     }
 }

@@ -100,12 +100,12 @@ class Helper {
         return { ...formdata };
     }
     static capitalize(string) {
-        return string.charAt(0).toUpperCase() + string.slice(1);
+        
+        return string ? string.charAt(0).toUpperCase() + string.slice(1) : '';
     }
     static isEmpty(obj) {
-        for (let key in obj) {
-            if (obj.hasOwnProperty(key))
-                return false;
+        if(Object.keys(obj).length > 0){
+            return false
         }
         return true;
     }
