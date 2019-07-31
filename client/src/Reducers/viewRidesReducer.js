@@ -32,8 +32,10 @@ const enqueDequeSeats = (state, seatnumber) => {
     const indexOfSeat = bookedseats.indexOf(seatnumber)
     if (indexOfSeat !== -1) {
         bookedseats.splice(indexOfSeat, 1)
+        sessionStorage.setItem('seats', JSON.stringify(bookedseats))
         return { ...state, seats: [...bookedseats] }
     }
-    const c = [...bookedseats, seatnumber]
-    return { ...state, seats: c }
+    const seats = [...bookedseats, seatnumber]
+    sessionStorage.setItem('seats', JSON.stringify(seats))
+    return { ...state, seats: seats }
 }
