@@ -19,10 +19,15 @@ class TripDetails extends Component {
         validationMessage: '',
         formdata: {
 
-        }
+        },
+        travellerDetails: {}
     }
+    
     componentDidMount() {
-        if (sessionStorage.getItem('preference') !== null && sessionStorage.getItem('selectedRide') !== null) {
+
+        if ( sessionStorage.getItem('seats') !== null &&
+             sessionStorage.getItem('preference') !== null && 
+                sessionStorage.getItem('selectedRide') !== null) {
             const tripPreferences = JSON.parse(sessionStorage.getItem('preference'))
             const rideDetail = JSON.parse(sessionStorage.getItem('selectedRide'));
             this.props.fetchState({ tripPreferences, rideDetail }, )
@@ -37,16 +42,13 @@ class TripDetails extends Component {
     componentWillReceiveProps(nextProps) {
         this.setState({
             formdata: nextProps.formdata,
-        }, () => console.log('here now o',this.state.formdata));
-        console.log('here now o',this.state.formdata)
+        });
     }
     viewRideDetails() {
         const { carName, carImageUrl, companyname,
             carType, price_per_seat, capacity,
             trip_start_state, trip_end_state, ac,
              startTerminal, arrivalTerminal } = this.props.preference;
-             console.log(this.props.preference)
-        console.log(this.props.preferences)
         const origin = `${Helper.capitalize(trip_start_state)} [${Helper.capitalize(startTerminal)}]`;
         const destination = `${Helper.capitalize(trip_end_state)} [${Helper.capitalize(arrivalTerminal)}]`;
         const carUrl = carImageUrl
@@ -152,10 +154,8 @@ class TripDetails extends Component {
     }
     fillContactDetails() {
         const {seats} = JSON.parse(sessionStorage.getItem('selectedRide'));
-        console.log('statts' ,this.state.formdata)
         if(Object.keys(this.state.formdata).length > 0){
             const numberOfLines = seats.length;
-            console.log(numberOfLines, seats)
             const elements = []
             for (let i = 0; i < numberOfLines; i++) {
                 elements.push(<CardDetail count={i} state={this.state} 
@@ -174,7 +174,6 @@ class TripDetails extends Component {
                 </div>
             )
         }else{
-            console.log('ooooooo')
             return null
         }
         
@@ -187,38 +186,46 @@ class TripDetails extends Component {
         return isValid ? this.processForm() : this.showValidationMessage(validationMessage);
     }
     processForm() {
+        const seats = JSON.parse(sessionStorage.getItem('seats'))
+        this.props.processForm(this.state.paymentType, this.state.travellerDetails,
+            this.props.preferences, seats)
 
     }
     showValidationMessage(validationMessage) {
         this.props.modal('Alert', validationMessage)
     }
-    validateFormData(form) {
-        console.log('form', form);
+    validateFormData(travellerDetails) {
         let isValid = true;
         let validationMessage = '';
-        for (let i = 0; i < form.length; i++) {
-            if (form[i].fullname.trim() === '' || form[i].phonenumber.trim() === '' || form[i].email.trim() === '') {
+        for (let i = 0; i < travellerDetails.length; i++) {
+            if (travellerDetails[i].fullname.trim() === '' || 
+            travellerDetails[i].phonenumber.trim() === '' || travellerDetails[i].email.trim() === '') {
                 isValid = false;
-                validationMessage = 'Incomplete/Incorrect Form details'
+                validationMessage = 'Incomplete/Incorrect Form details';
                 break;
             }
         }
         if (this.state.paymentType.trim() === '') {
             isValid = false;
             if (validationMessage.trim() === '') {
-                validationMessage = 'Please choose a payment payment'
+                validationMessage = 'Please choose a payment method'
             } else {
                 validationMessage += ' and please choose a payment method'
             }
 
         }
+        this.setState({
+            travellerDetails
+        })
         return { isValid, validationMessage }
     }
     getTravellerDetails() {
         //const number_of_tickets = parseInt(this.props.selectedRide.numberOfSeats);
-        const number_of_tickets = this.props.seats.length;
+        //const number_of_tickets = this.props.seats.length;
+        const seats = JSON.parse(sessionStorage.getItem('seats'))
         const form = this.state.formdata;
         const passenger_details = [];
+        const number_of_tickets = seats.length;
         for (let i = 0; i < number_of_tickets; i++) {
             passenger_details.push({
                 fullname: form[`keys-${i}-name`].value,

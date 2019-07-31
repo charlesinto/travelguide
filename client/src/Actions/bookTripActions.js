@@ -1,4 +1,7 @@
-import { PREFERENCES_SELECTED, FETCH_BOOK_STATE,INIT_SEATS, UPDATE_STATE } from "./types";
+import { PREFERENCES_SELECTED, FETCH_BOOK_STATE,INIT_SEATS,
+     UPDATE_STATE, ERROR_PROCESSING_TRIP,SUCCESS_PROCESS_TRIP
+     } from "./types";
+import axios from "axios";
 
 const bookTrip = (tripPreference) => {
     sessionStorage.setItem("preference", JSON.stringify(tripPreference))
@@ -28,10 +31,33 @@ const updateState = (formdata) => {
         payload: formdata
     }
 }
+
+const processForm = async (paymentType, travellerDetails, tripPreference, seats) => {
+    console.log({paymentType, travellerDetails, tripPreference, seats})
+    return async (dispatch) => {
+        try{
+            const response = await axios.post('/api/v1/register_trip', {
+                paymentType, travellerDetails, tripPreference,seats
+            })
+            console.log(response)
+            dispatch({
+                type: SUCCESS_PROCESS_TRIP,
+                payload: response,
+            })
+        }catch(error){
+            dispatch({
+                type: ERROR_PROCESSING_TRIP,
+                payload: error
+            })
+        }
+    }
+}
+
 export {
     bookTrip,
     fetchState,
     updateState,
-    initSeats
+    initSeats,
+    processForm
 }
 
