@@ -23,6 +23,16 @@ class Helper {
                 new Date(maxDatePart[0], maxDatePart[1], maxDatePart[2])
             )
     }
+    static generateUniqueId(prefix = '') {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        const charactersLength = characters.length;
+        const uniqueIds = [];
+        if(prefix.trim() !== '') uniqueIds.push(`${prefix}-`)
+        for ( var i = 0; i < 12; i++ ) {
+           uniqueIds.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
+        }
+        return uniqueIds.join('');
+     }
 }
 
 export default Helper;

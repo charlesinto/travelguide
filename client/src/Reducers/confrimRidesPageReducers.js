@@ -74,7 +74,7 @@ const fillContactDetails = (numberOfPassengers, state) => {
             config: {
                 label: 'To:',
                 name: `number_o_${i}_input`,
-                type: 'number',
+                type: 'text',
                 placeholder: 'Enter Contact Number'
             },
             validation: {

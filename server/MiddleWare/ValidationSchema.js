@@ -28,6 +28,15 @@ class ValidationSchema {
             seats: Joi.array().min(1).required(),
         })
     }
+
+    static registerTripSchema(){
+        return Joi.object().keys({
+            paymentType: Joi.string().required(),
+            seats: Joi.array().min(1).required(),
+            travellerDetails: Joi.array().min(1).required(),
+            tripSelected: Joi.object().required()
+        })
+    }
 }
 
 export default ValidationSchema;

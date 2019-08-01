@@ -182,13 +182,16 @@ class TripDetails extends Component {
         //this.props.history.push('/book/new_trip/book_completed')
         this.props.updateState(this.state.formdata)
         const travellerDetails = this.getTravellerDetails();
+        console.log('tavelers details', travellerDetails);
         const { isValid, validationMessage } = this.validateFormData(travellerDetails);
-        return isValid ? this.processForm() : this.showValidationMessage(validationMessage);
+        return isValid ? this.processForm(travellerDetails) : this.showValidationMessage(validationMessage);
     }
-    processForm() {
+    processForm(travellerDetails) {
         const seats = JSON.parse(sessionStorage.getItem('seats'))
-        this.props.processForm(this.state.paymentType, this.state.travellerDetails,
-            this.props.preferences, seats)
+        const { depature_date } = JSON.parse(sessionStorage.getItem('preference'))
+        const tripDetails = {...this.props.preference, depature_date}
+        this.props.processForm(this.state.paymentType, travellerDetails,
+            tripDetails, seats)
 
     }
     showValidationMessage(validationMessage) {
@@ -216,7 +219,7 @@ class TripDetails extends Component {
         }
         this.setState({
             travellerDetails
-        })
+        } )
         return { isValid, validationMessage }
     }
     getTravellerDetails() {

@@ -14,9 +14,9 @@ class TripModel {
     }
     createPassengers(travellers, booknumber) {
         let values = ''
-        let statement = 'insert into booked_trips_passenger_details(firstname, lastname,emailaddress, phonenumber, booknumber) values'
+        let statement = 'insert into booked_trips_passenger_details(fullname,email, phonenumber, booknumber) values'
         travellers.forEach(passenger => {
-            values += `('${passenger.firstname}', '${passenger.lastname}', '${passenger.emailaddress}','${passenger.phonenumber}', '${booknumber}'),`
+            values += `('${passenger.fullname}', '${passenger.email}','${passenger.phonenumber}', '${booknumber}'),`
         })
         //remove the last comma
         let newValues = values.substring(0, values.length - 1);

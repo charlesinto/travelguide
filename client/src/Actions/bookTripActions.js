@@ -32,12 +32,12 @@ const updateState = (formdata) => {
     }
 }
 
-const processForm = async (paymentType, travellerDetails, tripPreference, seats) => {
-    console.log({paymentType, travellerDetails, tripPreference, seats})
+const processForm = async (paymentType, travellerDetails, tripSelected, seats) => {
+    console.log({paymentType, travellerDetails, tripSelected, seats})
     return async (dispatch) => {
         try{
             const response = await axios.post('/api/v1/register_trip', {
-                paymentType, travellerDetails, tripPreference,seats
+                paymentType, travellerDetails, tripSelected,seats
             })
             console.log(response)
             dispatch({
