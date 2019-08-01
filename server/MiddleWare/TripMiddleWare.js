@@ -55,6 +55,14 @@ class TripMiddleWare {
         }
         return res.status(404).send({ message: 'Bad Requests' })
     }
+    validateTripDetails(req, res, next){
+        const { paymentType, seats, travellerDetails, tripSelected } = req.body
+        Joi.validate({paymentType, seats, travellerDetails, tripSelected}, 
+                ValidationSchema.registerTripSchema(), (err, value) => {
+                    if(err) return res.status(400).send({message: 'Bad Request', err})
+                    next()
+        })
+    }
 }
 
 export default new TripMiddleWare;
