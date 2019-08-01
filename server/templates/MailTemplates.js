@@ -95,7 +95,7 @@ class MailTemplates {
        
        <section>
          <div>
-           Thank you for making your booking with companyName, below are the details of your itinerary.
+           Thank you for making your booking with ${transportProvide}, below are the details of your itinerary.
   
   Please note that this reservation will expire at the time and date indicated below.
   
